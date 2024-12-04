@@ -7,7 +7,7 @@ Steps & Commands
  run mongo image docker run -d -p 27017:27017 --name javatechiemongodb mongo:latest
  dockerize spring boot application docker build -t springboot-mongodb:1.0 .
  run spring boot docker image and link that container to mongo container 
- docker run -p 8080:8080 --name springboot-mongodb --link javatechiemongodb:mongo -d springboot-mongodb:1.0
+docker run -p 8080:8080 --name springboot-mongodb --link dockerjavamongo:mongo -d springboot-mongodb:1.0
  check docker running containers docker ps it should display two container ids
  check logs of spring boot image docker logs springboot-mongodb
  if all good access your api 🎉
@@ -18,7 +18,7 @@ curl --location --request POST 'http://localhost:8080/books' \
     "bookName":"corejava",
     "authorName":"Basant"
 }'
- login to mongo terminal to verify records docker exec -it javatechiemongodb bash
+ login to mongo terminal to verify records docker exec -it dockerjavamongo bash
 type mongo and enter
 show dbs
 use book
@@ -31,9 +31,9 @@ docker rm <containerId>
 docker-compose.yml
 version: "3"
 services:
-  javatechiemongodb:
+  dockerjavamongo:
     image: mongo:latest
-    container_name: "javatechiemongodb"
+    container_name: "dockerjavamongo"
     ports:
       - 27017:27017
   springboot-mongodb:
@@ -42,6 +42,6 @@ services:
     ports:
       - 8080:8080
     links:
-      - javatechiemongodb
+      - dockerjavamongo
  navigate to resources folder:
 springboot-mongo-docker/src/main/resources and run docker-compose up
