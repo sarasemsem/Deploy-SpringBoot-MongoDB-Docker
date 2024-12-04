@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  dockerjavamongo:
+    image: mongo:latest  # Use the official MongoDB image
+    container_name: dockerjavamongo
+    ports:
+      - "27017:27017"
+    #volumes:
+    #  - mongo-data:/data/db  # Persist data between container restarts
+  springboot-docker-mongodb:
+    image: springboot-mongodb:1.0  # The name of the image you built
+    container_name: springboot-docker-mongodb
+    ports:
+      - "8080:8080"
+    links:
+      - dockerjavamongo
+    #depends_on:
+    #  - mongo  # Ensures MongoDB is started before the Spring Boot app
+    #environment:
+    #  - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/mydatabase  # Connect to MongoDB using the service name as the host
